@@ -25,9 +25,7 @@ const renderLoop = () => {
 
     drawGrid();
     drawCells();
-
-
-    setTimeout(() => requestAnimationFrame(renderLoop), 50);
+    requestAnimationFrame(renderLoop)
 };
 
 const drawGrid = () => {
@@ -79,7 +77,7 @@ const drawCells = () => {
         } else if (modulus === 2) {
             resultArray[chunkIndex].rb = item
         } else if (modulus === 3) {
-            resultArray[chunkIndex].clock = item
+            resultArray[chunkIndex].gen = item
         }
 
 

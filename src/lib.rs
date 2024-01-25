@@ -13,7 +13,7 @@ pub struct Cell {
     specie: Species,
     ra: u8,
     rb: u8,
-    clock: u8,
+    gen: u8,
 }
 
 #[wasm_bindgen]
@@ -40,7 +40,7 @@ impl Cell {
             specie: specie,
             ra: 0,
             rb: 0,
-            clock: 0,
+            gen: 0,
         }
     }
 
@@ -53,7 +53,7 @@ static EMPTY_CELL: Cell = Cell {
     specie: Species::Empty,
     ra: 0,
     rb: 0,
-    clock: 0,
+    gen: 0,
 };
 
 #[wasm_bindgen]
@@ -62,6 +62,7 @@ pub struct Universe {
     height: i32,
     cells: Vec<Cell>,
     rng: SplitMix64,
+    gen: u8,
 }
 
 impl Universe {
@@ -76,9 +77,9 @@ impl Universe {
     }
 
     fn update_cell(cell: Cell, api: SandApi) {
-        // if cell.clock - api.universe.generation == 1 {
-        //     return;
-        // }
+        if cell.gen - api.universe.gen == 1 {
+            return;
+        }
         cell.update(api);
     }
 }
@@ -104,7 +105,8 @@ impl Universe {
             }
         }
 
-        // self.cells = next;
+        self.gen = self.gen.wrapping_add(1);
+
     }
 
     pub fn new() -> Universe {
@@ -123,6 +125,7 @@ impl Universe {
             height,
             cells,
             rng,
+            gen: 0,
         }
     }
 
@@ -161,7 +164,7 @@ impl Universe {
                         specie: specie,
                         ra: 0,
                         rb: 0,
-                        clock: 0,
+                        gen: 0,
                     }
                 }
             }
@@ -187,7 +190,7 @@ impl<'a> SandApi<'a> {
                 specie: Species::Wall,
                 ra: 0,
                 rb: 0,
-                clock: 0,
+                gen: self.universe.gen,
             };
         }
         self.universe.get_cell(nx, ny)
@@ -205,7 +208,7 @@ impl<'a> SandApi<'a> {
         }
         let i = self.universe.get_index(nx, ny);
         self.universe.cells[i] = v;
-        self.universe.cells[i].clock = 0;
+        self.universe.cells[i].gen = self.universe.gen.wrapping_add(1);
     }
 
     pub fn rand_int(&mut self, n: i32) -> i32 {
