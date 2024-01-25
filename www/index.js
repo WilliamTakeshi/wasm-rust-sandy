@@ -46,12 +46,36 @@ const drawGrid = () => {
 };
 
 const getIndex = (row, column) => {
-    return row * width + column;
+    return row * height + column;
 };
 
 const drawCells = () => {
     const cellsPtr = universe.cells();
-    const cells = new Uint8Array(memory.buffer, cellsPtr, width * height);
+    const perChunk = 4;
+
+    const cells = new Uint8Array(memory.buffer, cellsPtr, width * height * 4);
+
+    const cellsArr = cells.reduce((resultArray, item, index) => {
+        const chunkIndex = Math.floor(index / perChunk)
+        const modulus = Math.floor(index % perChunk)
+
+        if (!resultArray[chunkIndex]) {
+            resultArray[chunkIndex] = {} // start a new chunk
+        }
+
+        if (modulus === 0) {
+            resultArray[chunkIndex].specie = item
+        } else if (modulus === 1) {
+            resultArray[chunkIndex].ra = item
+        } else if (modulus === 2) {
+            resultArray[chunkIndex].rb = item
+        } else if (modulus === 3) {
+            resultArray[chunkIndex].clock = item
+        }
+
+
+        return resultArray
+    }, []);
 
     ctx.beginPath();
 
@@ -59,7 +83,7 @@ const drawCells = () => {
         for (let col = 0; col < width; col++) {
             const idx = getIndex(row, col);
 
-            ctx.fillStyle = color(cells[idx])
+            ctx.fillStyle = color(cellsArr[idx].specie)
 
             ctx.fillRect(
                 col * (CELL_SIZE + 1) + 1,
@@ -74,8 +98,8 @@ const drawCells = () => {
 };
 
 
-const color = (species) => {
-    switch (species) {
+const color = (specie) => {
+    switch (specie) {
         case Species.Sand:
             return "#D2AA6D";
         case Species.Water:
