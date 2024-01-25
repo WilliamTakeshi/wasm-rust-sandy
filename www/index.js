@@ -9,6 +9,9 @@ const universe = Universe.new();
 const width = universe.width();
 const height = universe.height();
 
+universe.paint(10, 10, 5, Species.Sand);
+universe.paint(20, 10, 5, Species.Sand);
+
 // Give the canvas room for all of our cells and a 1px border
 // around each of them.
 const canvas = document.getElementById("sandy-canvas");
@@ -23,7 +26,8 @@ const renderLoop = () => {
     drawGrid();
     drawCells();
 
-    requestAnimationFrame(renderLoop);
+
+    setTimeout(() => requestAnimationFrame(renderLoop), 50);
 };
 
 const drawGrid = () => {
@@ -48,6 +52,11 @@ const drawGrid = () => {
 const getIndex = (row, column) => {
     return row * height + column;
 };
+
+canvas.addEventListener("mousedown", (event) => {
+    event.preventDefault();
+    paint(event);
+});
 
 const drawCells = () => {
     const cellsPtr = universe.cells();
@@ -116,6 +125,28 @@ const color = (specie) => {
             return "#FFFFFF";
     }
 }
+
+const paint = (event) => {
+    const boundingRect = canvas.getBoundingClientRect();
+
+    const scaleX =
+        canvas.width / Math.ceil(window.devicePixelRatio) / boundingRect.width;
+    const scaleY =
+        canvas.height / Math.ceil(window.devicePixelRatio) / boundingRect.height;
+
+    const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
+    const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+
+    const x = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
+    const y = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
+
+    universe.paint(
+        x,
+        y,
+        5,
+        Species.Sand
+    );
+};
 
 
 drawGrid();

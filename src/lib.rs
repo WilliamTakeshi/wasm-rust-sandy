@@ -112,13 +112,8 @@ impl Universe {
         let height = 100;
 
         let cells = (0..width * height)
-            .map(|i: i32| {
-
-                if i % 3 == 0 {
-                    Cell::new(Species::Sand)
-                } else {
-                    Cell::new(Species::Empty)
-                }
+            .map(|_| {
+                Cell::new(Species::Empty)
             })
             .collect();
         let rng: SplitMix64 = SeedableRng::seed_from_u64(0x797867893cc);
@@ -143,16 +138,35 @@ impl Universe {
         self.cells.as_ptr()
     }
 
-    // pub fn rand_2(&self) -> i32 {
-    //     let mut rng = rand::thread_rng();
-    //     let y: f64 = rng.gen();
+    pub fn paint(&mut self, x: i32, y: i32, size: i32, specie: Species) {
+        let radius: f64 = (size as f64) / 2.0;
 
-    //     if y > 0.5 {
-    //         1
-    //     } else {
-    //         -1
-    //     }
-    // }
+        let floor = radius as i32;
+        let ceil = radius as i32;
+
+        for dx in -floor..ceil {
+            for dy in -floor..ceil {
+                if (((dx * dx) + (dy * dy)) as f64) > (radius * radius) {
+                    continue; // ignore outside the circle
+                };
+                let px = x + dx;
+                let py = y + dy;
+                let i = self.get_index(px, py);
+
+                if px < 0 || px > self.width - 1 || py < 0 || py > self.height - 1 {
+                    continue;
+                }
+                if self.get_cell(px, py).specie == Species::Empty || specie == Species::Empty {
+                    self.cells[i] = Cell {
+                        specie: specie,
+                        ra: 0,
+                        rb: 0,
+                        clock: 0,
+                    }
+                }
+            }
+        }
+    }
 }
 
 pub struct SandApi<'a> {
