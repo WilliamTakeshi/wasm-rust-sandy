@@ -115,8 +115,8 @@ const color = (specie) => {
             return "#000000";
         // case Species.Plant:
         //     return "#00FF00";
-        // case Species.Fire:
-        //     return "#FFA500";
+        case Species.Lava:
+            return "#FF0000";
         // case Species.Air:
         //     return "#FFFFFF";
         default:
@@ -142,7 +142,7 @@ const paint = (event) => {
         x,
         y,
         5,
-        Species.Sand
+        Species.Lava
     );
 };
 
