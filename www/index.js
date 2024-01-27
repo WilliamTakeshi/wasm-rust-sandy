@@ -1,5 +1,12 @@
 import { Universe, Cell, Species } from "wasm-rust-sandy";
 import { memory } from "wasm-rust-sandy/wasm_rust_sandy_bg";
+import { createRoot } from 'react-dom/client';
+import React from 'react';
+
+// Render your React component instead
+const root = createRoot(document.getElementById('app'));
+root.render(<h1>Hello, world</h1>);
+
 
 const CELL_SIZE = 5; // px
 const GRID_COLOR = "#CCCCCC";
@@ -17,7 +24,6 @@ universe.paint(20, 10, 5, Species.Sand);
 const canvas = document.getElementById("sandy-canvas");
 canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
-
 const ctx = canvas.getContext('2d');
 
 const renderLoop = () => {
