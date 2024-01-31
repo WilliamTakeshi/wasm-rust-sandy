@@ -41,6 +41,8 @@ npm run start
 
 ## Gameplay
 
+You can play on [App](https://wasm-rust-sandy.vercel.app/)
+
 
 
 ## Contributing
