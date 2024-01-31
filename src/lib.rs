@@ -88,8 +88,6 @@ impl Universe {
 #[wasm_bindgen]
 impl Universe {
     pub fn tick(&mut self) {
-        // let mut next = self.cells.clone();
-
         for row in 0..self.height {
             for col in 0..self.width {
                 let idx = self.get_index(row, col);
@@ -232,8 +230,8 @@ impl<'a> SandApi<'a> {
     }
 
     pub fn rand_vec(&mut self) -> (i32, i32) {
-        let i = self.rand_int(2000);
-        match i % 9 {
+        let i = self.rand_int(9);
+        match i {
             0 => (1, 1),
             1 => (1, 0),
             2 => (1, -1),

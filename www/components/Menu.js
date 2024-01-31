@@ -14,6 +14,12 @@ export function Menu(props) {
             <button onClick={() => setSpecie(Species.Lava)}>
                 Lava
             </button>
+            <button onClick={() => setSpecie(Species.Stone)}>
+                Stone
+            </button>
+            <button onClick={() => setSpecie(Species.Wall)}>
+                Wall
+            </button>
         </div>
     );
 }

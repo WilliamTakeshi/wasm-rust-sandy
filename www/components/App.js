@@ -116,8 +116,8 @@ const color = (specie) => {
         //     return "#00FF00";
         case Species.Lava:
             return "#FF0000";
-        // case Species.Air:
-        //     return "#FFFFFF";
+        case Species.Stone:
+            return "#918E85";
         default:
             return "#FFFFFF";
     }
