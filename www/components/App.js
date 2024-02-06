@@ -130,18 +130,32 @@ requestAnimationFrame(renderLoop);
 export function App() {
     const [specie, setSpecie] = useState(Species.Sand);
 
+    let repeat;
+
     const mouseDown = (event) => {
         event.preventDefault();
+
         paint(event, specie);
+        repeat = window.setInterval(() => paint(event, specie), 100);
+    }
+
+    const mouseUp = (event) => {
+        event.preventDefault();
+        clearInterval(repeat);
     }
 
     useEffect(() => {
         canvas.addEventListener("mousedown", mouseDown);
+        canvas.addEventListener("mouseup", mouseUp);
         return () => {
             canvas.removeEventListener('mousedown', mouseDown);
+            canvas.removeEventListener('mousedown', mouseUp);
         };
     }, [specie]);
 
+    useEffect(() => {
+        canvas.addEventListener("mouseup", mouseUp);
+    }, []);
 
     const paint = (event, specie) => {
         const boundingRect = canvas.getBoundingClientRect();
