@@ -146,10 +146,8 @@ export function App() {
 
     useEffect(() => {
         canvas.addEventListener("mousedown", mouseDown);
-        canvas.addEventListener("mouseup", mouseUp);
         return () => {
             canvas.removeEventListener('mousedown', mouseDown);
-            canvas.removeEventListener('mousedown', mouseUp);
         };
     }, [specie]);
 
