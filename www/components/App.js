@@ -144,15 +144,33 @@ export function App() {
         clearInterval(repeat);
     }
 
+    const mouseMove = (event) => {
+        event.preventDefault();
+        clearInterval(repeat);
+
+        if (event.buttons === 1) {
+            paint(event, specie);
+            repeat = window.setInterval(() => paint(event, specie), 100);
+        }
+    }
+
+    const mouseLeave = (event) => {
+        event.preventDefault();
+        clearInterval(repeat);
+    }
+
     useEffect(() => {
         canvas.addEventListener("mousedown", mouseDown);
+        canvas.addEventListener("mousemove", mouseMove);
         return () => {
             canvas.removeEventListener('mousedown', mouseDown);
+            canvas.removeEventListener('mousemove', mouseMove);
         };
     }, [specie]);
 
     useEffect(() => {
         canvas.addEventListener("mouseup", mouseUp);
+        canvas.addEventListener("mouseleave", mouseLeave);
     }, []);
 
     const paint = (event, specie) => {
@@ -172,7 +190,7 @@ export function App() {
         universe.paint(
             x,
             y,
-            5,
+            3,
             specie
         );
     };
