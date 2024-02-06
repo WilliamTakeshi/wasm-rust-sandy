@@ -25,6 +25,9 @@ export function Menu(props) {
             <div className={buttonClass(Species.Wall)} onClick={() => setSpecie(Species.Wall)}>
                 Wall
             </div>
+            <div className={buttonClass(Species.Empty)} onClick={() => setSpecie(Species.Empty)}>
+                Empty
+            </div>
         </div>
     );
 }
