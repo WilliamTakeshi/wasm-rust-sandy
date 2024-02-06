@@ -17,4 +17,5 @@ echo "Build static frontend client..."
 # Build static html for the react client
 cd www
 npm install
+npx tailwindcss -i ./input.css -o ./dist/output.css
 npm run build
