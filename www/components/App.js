@@ -176,13 +176,8 @@ export function App() {
     const paint = (event, specie) => {
         const boundingRect = canvas.getBoundingClientRect();
 
-        const scaleX =
-            canvas.width / Math.ceil(window.devicePixelRatio) / boundingRect.width;
-        const scaleY =
-            canvas.height / Math.ceil(window.devicePixelRatio) / boundingRect.height;
-
-        const canvasLeft = (event.clientX - boundingRect.left) * scaleX;
-        const canvasTop = (event.clientY - boundingRect.top) * scaleY;
+        const canvasLeft = (event.clientX - boundingRect.left);
+        const canvasTop = (event.clientY - boundingRect.top);
 
         const x = Math.min(Math.floor(canvasLeft / (CELL_SIZE + 1)), width - 1);
         const y = Math.min(Math.floor(canvasTop / (CELL_SIZE + 1)), height - 1);
