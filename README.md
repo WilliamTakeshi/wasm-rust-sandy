@@ -3,6 +3,10 @@
 
 Welcome to the wasm-rust-sand, a Sand Falling Game! This is a experiment game just for me to learn wasm. Heavily based on [sandspiel](https://github.com/MaxBittker/sandspiel)
 
+## Gameplay
+
+You can play [online](https://wasm-rust-sandy.vercel.app/)
+
 
 ## Building
 
@@ -37,12 +41,6 @@ npm install
 npm run start
 
 ```
-
-
-## Gameplay
-
-You can play on [App](https://wasm-rust-sandy.vercel.app/)
-
 
 
 ## Contributing
